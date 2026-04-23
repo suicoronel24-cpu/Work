@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <title>Creating Work</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      color: #00ffcc;
+      font-family: monospace;
+      text-align: center;
+      overflow: hidden;
+      background: black;
+    }
+
+    /* 🔥 LOADING SCREEN */
+    #loader {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: black;
+      color: #00ffcc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      z-index: 9999;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -2;
+    }
+
+    /* 🔥 BACKGROUND LOGO (CLEAR + GLITCH) */
+    .bg-logo {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      opacity: 0.18;
+      z-index: -1;
+      filter: drop-shadow(0 0 25px #00ffcc);
+      animation: glitch 2s infinite;
+    }
+
+    @keyframes glitch {
+      0% { transform: translate(-50%, -50%); }
+      20% { transform: translate(-48%, -52%); }
+      40% { transform: translate(-52%, -48%); }
+      60% { transform: translate(-49%, -51%); }
+      80% { transform: translate(-51%, -49%); }
+      100% { transform: translate(-50%, -50%); }
+    }
+
+    h1, h2, h3, footer, .work {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 🔥 TYPING EFFECT */
+    #typing {
+      font-size: 22px;
+      margin-top: 40px;
+      color: #00ffcc;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-top: 50px;
+      text-shadow: 0 0 10px #00ffcc;
+    }
+
+    h2, h3 {
+      text-shadow: 0 0 5px #00ffcc;
+    }
+
+    .work {
+      margin: 40px auto;
+      padding: 20px;
+      width: 300px;
+      border: 1px solid #00ffcc;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 15px #00ffcc;
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
+    }
+
+    .work:hover {
+      box-shadow: 0 0 25px #00ffcc;
+      transform: scale(1.03);
+    }
+
+    .work li {
+      list-style: none;
+      margin: 10px 0;
+      padding: 8px;
+      border-bottom: 1px solid rgba(0,255,204,0.3);
+      text-shadow: 0 0 5px #00ffcc;
+      transition: 0.3s;
+    }
+
+    .work li:hover {
+      color: #00ff99;
+      text-shadow: 0 0 10px #00ffcc;
+      transform: translateX(5px);
+    }
+
+    .chat-bubble {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      background: #0084ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: white;
+      text-decoration: none;
+      box-shadow: 0 0 15px #0084ff;
+      z-index: 999;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 10px #0084ff; }
+      50% { box-shadow: 0 0 25px #00a2ff; }
+      100% { box-shadow: 0 0 10px #0084ff; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- 🔥 LOADING -->
+  <div id="loader">Initializing System...</div>
+
+  <canvas id="matrix"></canvas>
+
+  <!-- LOGO -->
+  <img src="logo.png" class="bg-logo">
+
+  <!-- 🔥 TYPING TEXT -->
+  <div id="typing"></div>
+
+  <h1>
+    Wellcome to my World of Digital aweakend!
+  </h1>
+
+  <h2>
+    Mohimo ko og Website, Webpage, system for capstone!
+    just contact me sa number na ito.
+    09631476931 or direct to me chat paki click yong message button jan
+    na blue.
+  </h2>
+
+  <div class="work">
+    <li> e-commerce Website: 300</li>
+    <li> system present: 400</li>
+    <li> system final defence: 500</li>
+  </div>
+
+  <footer>® 2026Sumanduran </footer>
+
+  <a href="https://m.me/raniel.sumanduran.2025" target="_blank" class="chat-bubble">
+    💬
+  </a>
+
+  <audio id="bgMusic"></audio>
+
+  <script>
+    // LOADING SCREEN
+    window.onload = () => {
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+      }, 2000);
+    };
+
+    // TYPING EFFECT
+    const text = ">>> Access Granted...";
+    let i = 0;
+    function typing() {
+      if (i < text.length) {
+        document.getElementById("typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typing, 80);
+      }
+    }
+    typing();
+
+    // MATRIX
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const letters = "01ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+
+    const drops = [];
+    for (let x = 0; x < columns; x++)
+      drops[x] = 1;
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0f0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975)
+          drops[i] = 0;
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 33);
+
+    // MUSIC
+    const playlist = [
+      "Livin__On_A_Prayer_-_Bon_Jovi__Lyrics__🎵(48k).mp3",
+      "The_Script_-_Hall_Of_Fame__Lyrics_(48k).mp3",
+      "Smash_Into_Pieces_-_Heroes_Are_Calling__Official_Music_Video_(48k).mp3"
+    ];
+
+    let currentTrack = 0;
+    const audio = document.getElementById("bgMusic");
+
+    function playMusic(index) {
+      audio.src = playlist[index];
+      audio.play().catch(() => {});
+    }
+
+    audio.addEventListener("ended", () => {
+      currentTrack = (currentTrack + 1) % playlist.length;
+      playMusic(currentTrack);
+    });
+
+    playMusic(currentTrack);
+
+    document.body.addEventListener("click", () => {
+      audio.play();
+    });
+  </script>
+
+</body>
+</html>
